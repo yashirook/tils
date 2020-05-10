@@ -17,3 +17,13 @@ spec:
       containers:
       - image: gcr.io/elegant-zodiac-264511/go-firebase-app
         name: go-firebase-app
+        env:
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /cred/elegant-zodiac-264511-firebase-adminsdk-hsgen-6db742a60c.json
+        volumeMounts:
+          - name: firebase-credential
+            mountPath: "/cred/"
+      volumes:
+        - name: firebase-credential
+          secret:
+            secretName: firebase-adminsdk

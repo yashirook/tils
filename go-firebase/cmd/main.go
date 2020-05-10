@@ -29,6 +29,7 @@ func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		authHeader := r.Header.Get("Authorization")
+		fmt.Printf(authHeader)
 		idToken := strings.Replace(authHeader, "Bearer ", "", 1)
 
 		token, err := auth.VerifyIDToken(context.Background(), idToken)
@@ -52,7 +53,7 @@ func private(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	allowedOrigins := handlers.AllowedOrigins([]string{"http://localhost:8081"})
+	allowedOrigins := handlers.AllowedOrigins([]string{"http://vue-webapp/"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"Authorization"})
 
