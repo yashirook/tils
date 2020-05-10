@@ -28,12 +28,12 @@ export default {
       })
     },
     apiPublic: async function () {
-      let res = await axios.get('http://localhost:8000/public')
+      let res = await axios.get('http://yashiroken.work/public')
       this.msg = res.data
     },
     apiPrivate: async function () {
-      let res = await axios.get('http://localhost:8000/private', {
-      headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}
+      let res = await axios.get('http://yashiroken.work/private', {
+        headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}
       })
       this.msg = res.data
     }

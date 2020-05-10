@@ -13,25 +13,25 @@
 <script>
 import firebase from 'firebase'
 export default {
-    name: 'Signin',
-    data: function () {
-        return {
-            email: '',
-            password: ''
-        }
-    },
-    methods: {
-        signIn: function () {
-            firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(res => {
-                firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-                    localStorage.setItem('jwt', idToken)
-                })
-                this.$router.push('/')
-            }, err => {
-                alert(err.message)
-            })
-        }
+  name: 'Signin',
+  data: function () {
+    return {
+      email: '',
+      password: ''
     }
+  },
+  methods: {
+    signIn: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(res => {
+        firebase.auth().currentUser.getIdToken(true).then(function (idToken) {
+          localStorage.setItem('jwt', idToken)
+        })
+        this.$router.push('/')
+      }, err => {
+        alert(err.message)
+      })
+    }
+  }
 }
 </script>
 
