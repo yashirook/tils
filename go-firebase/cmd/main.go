@@ -29,7 +29,7 @@ func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		authHeader := r.Header.Get("Authorization")
-		fmt.Printf(authHeader)
+		fmt.Println(authHeader)
 		idToken := strings.Replace(authHeader, "Bearer ", "", 1)
 
 		token, err := auth.VerifyIDToken(context.Background(), idToken)
