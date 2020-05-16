@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Signup from '@/components/Signup'
 import Signin from '@/components/Signin'
+import RegisterBook from '@/components/RegisterBook'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -28,6 +29,12 @@ let router = new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/books/register',
+      name: RegisterBook,
+      component: RegisterBook,
+      meta: { requiresAuth: true }
     }
   ]
 })
