@@ -4,8 +4,9 @@ WORKDIR /go/src/
 RUN go get -u firebase.google.com/go \
   && go get -u github.com/gorilla/handlers \
   && go get -u github.com/gorilla/mux \
-  && go get -u google.golang.org/api/option
-RUN CGO_ENABLED=0 go build -o app cmd/main.go
+  && go get -u google.golang.org/api/option \
+  && go get	-u github.com/lib/pq
+RUN CGO_ENABLED=0 go build -o app ./cmd/
 
 FROM alpine:latest
 WORKDIR /app/

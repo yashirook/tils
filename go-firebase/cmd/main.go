@@ -53,6 +53,11 @@ func private(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	err := dbInit()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	allowedOrigins := handlers.AllowedOrigins([]string{"http://vue-webapp/"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"Authorization"})
@@ -60,7 +65,7 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/public", public)
 	r.HandleFunc("/private", authMiddleware(private))
-	r.HandleFunc("/book/register", bookRegister)
+	r.HandleFunc("/books/register", bookRegister)
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(r)))
 }

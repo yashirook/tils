@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 var db *sql.DB
@@ -15,7 +17,7 @@ func dbInit() error {
 	datastoreName := os.Getenv("POSTGRES_CONNECTION")
 
 	var err error
-	db, err = sql.Open("posgres", datastoreName)
+	db, err = sql.Open("postgres", datastoreName)
 	if err != nil {
 		log.Fatal(err)
 	}
