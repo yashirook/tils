@@ -23,8 +23,8 @@ export default {
   },
   methods: {
     registerBook: function () {
-      axios.post('/bookregister', {
-      bookName: this.bookname,
+      axios.post('/books/register', {
+      name: this.bookname,
       comment: this.comment
       })
       .then(function (response) {
