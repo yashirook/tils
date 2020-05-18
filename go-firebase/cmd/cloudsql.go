@@ -38,8 +38,8 @@ func createTable() error {
 }
 
 type Book struct {
-	Name    string `json: "name"`
-	Comment string `json: "comment"`
+	Name    string `json:"name"`
+	Comment string `json:"comment"`
 }
 
 func bookRegister(w http.ResponseWriter, req *http.Request) {
@@ -67,4 +67,41 @@ func recordBook(name, comment string) error {
 	stmt := "INSERT INTO books (name, comment) VALUES ($1, $2)"
 	_, err := db.Exec(stmt, name, comment)
 	return err
+}
+
+func bookList(w http.ResponseWriter, req *http.Request) {
+	books, err := queryBooks(5)
+	if err != nil {
+		msg := fmt.Sprintf("Could not get books: %v", err)
+		http.Error(w, msg, http.StatusInternalServerError)
+		return
+	}
+
+	res, err := json.Marshal(books)
+	if err != nil {
+		msg := fmt.Sprintf("Could not marshal books: %v", err)
+		http.Error(w, msg, http.StatusInternalServerError)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(res)
+
+}
+
+func queryBooks(limit int) ([]Book, error) {
+	rows, err := db.Query("SELECT name, comment FROM books ORDER BY name DESC LIMIT $1", limit)
+	if err != nil {
+		return nil, fmt.Errorf("Could not get recent books: %v", err)
+	}
+	defer rows.Close()
+
+	var Books []Book
+	for rows.Next() {
+		var b Book
+		if err := rows.Scan(&b.Name, &b.Comment); err != nil {
+			return nil, fmt.Errorf("Could not get name/comment out of row: %v", err)
+		}
+		Books = append(Books, b)
+	}
+	return Books, rows.Err()
 }

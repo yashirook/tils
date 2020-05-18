@@ -68,6 +68,7 @@ func main() {
 	r.HandleFunc("/public", public)
 	r.HandleFunc("/private", authMiddleware(private))
 	r.HandleFunc("/books/register", bookRegister)
+	r.HandleFunc("/books/list", bookList)
 
 	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(r)))
 }
