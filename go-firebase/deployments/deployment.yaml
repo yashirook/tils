@@ -29,11 +29,10 @@ spec:
       - name: cloudsql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.14
         command: ["/cloud_sql_proxy",
-                "-instances=elegant-zodiac-264511:us-central1:sample-postgres=tcp:5432",
+                "-instances=elegant-zodiac-264511:us-west1:bookshelf-postgres=tcp:5432",
                 # If running on a VPC, the Cloud SQL proxy can connect via Private IP. See:
                 # https://cloud.google.com/sql/docs/mysql/private-ip for more info.
-                "-ip_address_types=PRIVATE",
-                "-credential_file=/secrets/cloudsql/elegant-zodiac-264511-98b4cbf582b8.json"]
+                "-credential_file=/secrets/cloudsql/elegant-zodiac-264511-d5c7cef1c4bb.json"]
         securityContext:
           runAsUser: 2  # non-root user
           allowPrivilegeEscalation: false

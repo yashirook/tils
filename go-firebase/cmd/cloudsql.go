@@ -21,7 +21,6 @@ func dbInit() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
 	if err := createTable(); err != nil {
 		log.Fatal(err)
@@ -31,20 +30,20 @@ func dbInit() error {
 
 func createTable() error {
 	stmt := `CREATE TABLE IF NOT EXISTS books (
-			name	VARCHAR(255)
+			name	VARCHAR(255),
 			comment VARCHAR(255)
 		)`
 	_, err := db.Exec(stmt)
 	return err
 }
 
-type book struct {
-	name    string
-	comment string
+type Book struct {
+	Name    string `json: "name"`
+	Comment string `json: "comment"`
 }
 
 func bookRegister(w http.ResponseWriter, req *http.Request) {
-	var b book
+	var b Book
 
 	err := json.NewDecoder(req.Body).Decode(&b)
 	if err != nil {
@@ -54,8 +53,8 @@ func bookRegister(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Fprintf(w, "Person: %+v", b)
 
-	if err := recordBook(b.name, b.comment); err != nil {
-		msg := fmt.Sprintf("Could not save visit: %v", err)
+	if err := recordBook(b.Name, b.Comment); err != nil {
+		msg := fmt.Sprintf("Could not save book: %v", err)
 		http.Error(w, msg, http.StatusInternalServerError)
 		return
 	}

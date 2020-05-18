@@ -58,6 +58,8 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	defer db.Close()
+
 	allowedOrigins := handlers.AllowedOrigins([]string{"http://vue-webapp/"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"Authorization"})
