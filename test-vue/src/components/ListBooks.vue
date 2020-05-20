@@ -1,71 +1,31 @@
 <template>
-    <div class="registerbook">
-        <h2>Bookshelf</h2>
-        <input type="text" placeholder="Bookname" v-model="bookname">
-        <input type="text" placeholder="Comment" v-model="comment">
-        <button @click="registerBook">Register</button>
-        <p>Do you have an account?
-            <router-link to="/signin">sign in now!!</router-link>
-        </p>
-    </div>
+  <div id="app">
+    <ul>
+      <list-item v-for="(value, key) in book_list" :key="name"></list-item>
+    </ul>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import ListItem from './ListBooks.vue';
 
 export default {
-  name: 'RegisterBook',
-  data () {
+  data() {
     return {
-      bookname: '',
-      comment: ''
-    }
+      book_list: []
+    };
   },
-  methods: {
-    registerBook: function () {
-      axios.post('/books/list', {
-      name: this.bookname,
-      comment: this.comment
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  components: {
+    ListItem
+  },
+  async created() {
+    try {
+      let res = await axios.get(URL_BASE + url)
+      this.book_list = res.data
+    } catch (e) {
+      console.error(e)
     }
   }
-}
+};
 </script>
-
-<style scoped>
-h1, h2 {
-    font-weight: normal;
-}
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-a {
-    color: #42b983;
-}
-.signup {
-    margin-top: 20px;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-}
-input {
-    margin: 10px 0;
-    padding: 10px;
-}
-button {
-    margin: 10px 0;
-    padding: 10px;
-}
-</style>
