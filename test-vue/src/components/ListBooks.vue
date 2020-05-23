@@ -1,31 +1,53 @@
 <template>
   <div id="app">
     <ul>
-      <list-item v-for="(value, key) in book_list" :key="name"></list-item>
+      <li v-for="book in books" :key="book.name">{{book.name}}</li>
     </ul>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import ListItem from './ListBooks.vue';
+import axios from 'axios'
 
 export default {
+  name: 'ListBooks',
   data() {
     return {
-      book_list: []
+      loading: true,
+      errored: false,
+      error: null,
+      todos: null
     };
   },
-  components: {
-    ListItem
-  },
-  async created() {
-    try {
-      let res = await axios.get(URL_BASE + url)
-      this.book_list = res.data
-    } catch (e) {
-      console.error(e)
+  method: {
+    window:onload = function() {
+      axios.get("http://yashiroken.work/books/list")
+        .then(response =>{
+          this.books = response.data;
+        })
+        .catch(err => {
+          (this.errored = true), (this.error = err);
+        })
+        .finally(() => (this.loading = false));
     }
   }
 };
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

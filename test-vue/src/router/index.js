@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Signup from '@/components/Signup'
 import Signin from '@/components/Signin'
 import RegisterBook from '@/components/RegisterBook'
+import ListBooks from '@/components/ListBooks'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -34,6 +35,12 @@ let router = new Router({
       path: '/books/register',
       name: RegisterBook,
       component: RegisterBook,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/books/list',
+      name: ListBooks,
+      component: ListBooks,
       meta: { requiresAuth: true }
     }
   ]
