@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void do_convert_cat(FILE *f);
+static void word_count(FILE *f);
 
 int
 main(int argc, char *argv[])
@@ -9,7 +9,7 @@ main(int argc, char *argv[])
     int i;
 
     if (argc == 1) {
-        do_convert_cat(stdin);
+        word_count(stdin);
     }
     else {
         for (i = 1; i < argc; i++) {
@@ -21,7 +21,7 @@ main(int argc, char *argv[])
                 exit(1);
             }
 
-            do_convert_cat(f);
+            word_count(f);
             fclose(f);
         }
     }
@@ -29,21 +29,22 @@ main(int argc, char *argv[])
 }
 
 static void
-do_convert_cat(FILE *f)
+word_count(FILE *f)
 {
+    unsigned long n;
     int c;
+    int prev = '\n';
+
+    n = 0;
 
     while ((c = fgetc(f)) != EOF) {
-        switch (c) {
-        case '\t':
-            if (fputs("\\t", stdout) == EOF) exit(1);
-            break;
-        case '\n':
-            if (fputs("$\n", stdout) == EOF) exit(1);
-            break;
-        default:
-            if (putchar(c) < 0) exit(1);
-            break;
+        if (c == '\n') {
+            n++;
         }
+        prev = c;
     }
+    if (prev != '\n') {
+        n++;
+    }
+    printf("%lu\n", n);
 }
