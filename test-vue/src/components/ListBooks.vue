@@ -1,35 +1,28 @@
 <template>
-  <div id="app">
-    <ul>
-      <li v-for="book in books" :key="book.name">{{book.name}}</li>
+  <div id="booklist">
+    <ul v-for="book in books" :key="book.name">
+      <li>
+        書名:{{ book.name }}, コメント:{{ book.comment }}
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-
 export default {
-  name: 'ListBooks',
+  name: "booklist",
   data() {
     return {
-      loading: true,
-      errored: false,
-      error: null,
-      todos: null
+      books: null
     };
   },
-  method: {
-    window:onload = function() {
-      axios.get("http://yashiroken.work/books/list")
-        .then(response =>{
-          this.books = response.data;
-        })
-        .catch(err => {
-          (this.errored = true), (this.error = err);
-        })
-        .finally(() => (this.loading = false));
-    }
+  created() {
+    axios
+      .get("/books/list")
+      .then(response => {
+        this.books = response.data;
+      })
   }
 };
 </script>
