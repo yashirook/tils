@@ -33,7 +33,7 @@ main(int argc, char *argv[] )
         for (i = 2; i < argc; i++) {
             FILE *f;
 
-            f = fopen(argv[i], "R");
+            f = fopen(argv[i], "r");
             if (!f) {
                 perror(argv[i]);
                 exit(1);
